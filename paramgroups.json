@@ -1,0 +1,41 @@
+[
+    {
+        "name": "Data loading",
+        "description": "Parameters related to data loading.",
+        "hidden": false,
+        "parameters": [
+            "tenx_data_dir",
+            "column_name",
+            "pattern",
+            "file_name"
+        ]
+    },
+    {
+        "name": "QC plots",
+        "description": "Parameters related to violin plots & filtering for QC.",
+        "hidden": false,
+        "parameters": [
+            "first_feature",
+            "second_feature",
+            "third_feature",
+            "min_n_features",
+            "max_n_features",
+            "max_percent_mitochondrial"
+        ]
+    },
+    {
+        "name": "Normalization & Dimention reduction",
+        "description": "Parameters related to Normalization, scaling, & PCA",
+        "hidden": true,
+        "parameters": [
+            "norm_method",
+            "scale_factor",
+            "feat_sel_method",
+            "num_features",
+            "num_to_label",
+            "vdl_num_dims",
+            "vdhm_num_dims",
+            "cells"
+        ]
+    }
+]
