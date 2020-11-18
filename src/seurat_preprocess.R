@@ -11,6 +11,19 @@
 #Function Definitions
 ################################################################################
 
+## Load the RDS file
+
+load_rds <- function(input.file){
+  pbmc=NULL
+
+  if (file.exists(input.file)){
+  	pbmc = readRDS(input.file)
+  } else {
+  Print('Input file could not be found!')
+  }
+  return(pbmc)
+}
+
 ### Load 10x data function
 setupR <- function(tenx_data_dir){
     write("Loading libraries...", stdout())
@@ -204,6 +217,7 @@ parser = OptionParser()
 # ====================================
 # Paramter for setupR
 parser <- add_option(parser, c("--tenx_data_dir"), help = "List of files to load.")
+parser <- add_option(parser, c("--input_rds"), help = "RDS file created by Seurat.QC.")
 # ====================================
 # PARAMETERS for set_mito_qc
 parser <- add_option(parser, c("--column_name"), type='character', default='PARAMETER_LEFT_INTENTIONALLY_BLANK', help = "column name of percent mitochondrial genes [often times it's called percent.mt].")
@@ -252,13 +266,20 @@ print('==========================================================')
 ################################################################################
 
 
+#-------------------------------------------------------------------------------
+# Ignore these calls, these were here when this script did it all in one shot
+# you should call Seurat.QC first
+#-------------------------------------------------------------------------------
 # Call the setupR function
-suppressMessages(pbmc <- setupR(args$tenx_data_dir))
-
+#suppressMessages(pbmc <- setupR(args$tenx_data_dir))
 # call the set_mito_qc function
-suppressMessages(pbmc <- set_mito_qc(args$column_name, args$pattern))
+#suppressMessages(pbmc <- set_mito_qc(args$column_name, args$pattern))
+#tripleViolin(args$first_feature, args$second_feature, args$third_feature)
+#-------------------------------------------------------------------------------
+# End of ignore
+#-------------------------------------------------------------------------------
 
-tripleViolin(args$first_feature, args$second_feature, args$third_feature)
+pbmc <- load_rds(args$input_rds)
 
 pbmc <- my_subset(args$min_n_features, args$max_n_features, args$max_percent_mitochondrial)
 
