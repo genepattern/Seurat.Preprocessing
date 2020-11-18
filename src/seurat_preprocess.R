@@ -14,6 +14,11 @@
 ## Load the RDS file
 
 load_rds <- function(input.file){
+  write("Loading libraries...", stdout())
+  suppressMessages(library(Seurat))
+  suppressMessages(library(scater))
+  fig_height=450
+  fig_width=800
   pbmc=NULL
 
   if (file.exists(input.file)){
