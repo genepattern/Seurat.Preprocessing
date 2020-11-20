@@ -186,4 +186,4 @@ quality=development
 taskDoc=doc.html
 taskType=preprocess & utilities
 userid=edjuaro
-version=Reading the RDS file
+version=Editing parameter groups

@@ -4,20 +4,15 @@
         "description": "Parameters related to data loading.",
         "hidden": false,
         "parameters": [
-            "tenx_data_dir",
-            "column_name",
-            "pattern",
+            "input_rds",
             "file_name"
         ]
     },
     {
-        "name": "QC plots",
-        "description": "Parameters related to violin plots & filtering for QC.",
+        "name": "Filtering",
+        "description": "Parameters related to filtering for QC.",
         "hidden": false,
         "parameters": [
-            "first_feature",
-            "second_feature",
-            "third_feature",
             "min_n_features",
             "max_n_features",
             "max_percent_mitochondrial"

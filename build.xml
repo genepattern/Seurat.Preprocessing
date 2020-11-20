@@ -6,7 +6,7 @@
 <target name="create-zip" depends="init">
     <antcall target="prezip"/>
     <zip destfile="${dest.dir}/${ant.project.name}.zip" whenempty="fail" defaultexcludes="true">
-        <fileset dir="." includes="manifest, doc.html, doc.md, Dockerfile"/>
+        <fileset dir="." includes="manifest, doc.html, doc.md, Dockerfile, paramgroups.json"/>
         <zipfileset dir="src" includes="*.R"/>
     </zip>
     <antcall target="postzip"/>
