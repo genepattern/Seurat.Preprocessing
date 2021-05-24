@@ -1,12 +1,19 @@
 [
     {
         "name": "Data loading",
-        "description": "Parameters related to data loading.",
+        "description": "Parameters related to data loading and output.",
         "hidden": false,
         "parameters": [
             "input_rds",
-            "file_name"
+            "file_name",
+            "keep_scale_data"
         ]
+    },
+    {
+        "name": "Other",
+        "description": "The rest",
+        "hidden": false,
+        "parameters": []
     },
     {
         "name": "Filtering",
@@ -19,8 +26,8 @@
         ]
     },
     {
-        "name": "Normalization & Dimention reduction",
-        "description": "Parameters related to Normalization, scaling, & PCA",
+        "name": "Normalization & Dimension reduction",
+        "description": "Parameters related to Normalization, Scaling, & PCA",
         "hidden": true,
         "parameters": [
             "norm_method",

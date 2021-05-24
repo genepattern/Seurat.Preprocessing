@@ -247,7 +247,7 @@ parser <- add_option(parser, c("--feat_sel_method"),type='character',default='vs
 parser <- add_option(parser, c("--num_features"),type='integer',default=2000, help = "Number of top features color during feature selection.")
 parser <- add_option(parser, c("--num_to_label"),type='integer',default=10, help = "Number of top features to label.")
 # ====================================
-# Parameter for Vizualize Dimention Loadings, vdl
+# Parameter for Vizualize Dimension Loadings, vdl
 parser <- add_option(parser, c("--vdl_num_dims"),type='integer',default=2, help = "Number of PCA dimensions to visualize.")
 # ====================================
 # Parameters for Heat Map, vdhm
@@ -255,6 +255,7 @@ parser <- add_option(parser, c("--vdhm_num_dims"),type='integer',default=15, hel
 parser <- add_option(parser, c("--cells"),type='integer',default=500, help = "Number of top cells to plot.")
 # ====================================
 #parameter for save_it
+parser <- add_option(parser, c("--keep_scale_data"), type='logical', default=TRUE, help = "Save Scaled Counts for Downstream Analysis.")
 parser <- add_option(parser, c("--file_name"),type='character',default='seurat_preprocessed_dataset', help = "Basename of the file to be saved.")
 # ====================================
 
@@ -284,30 +285,165 @@ print('==========================================================')
 # End of ignore
 #-------------------------------------------------------------------------------
 
+job_list <- list()
+input_size_list <- list()
+output_size_list <- list()
+
+# Add at each step a display size figure for the Seurat Object
+print("*************************************")
+print("************ LOAD RDS ***************")
+print("*************************************")
+job_list <- append(job_list, "LOAD RDS")
+input_size_list <- append(input_size_list, object.size(args$input_rds))
+print(object.size(args$input_rds), units="auto")
+start <- proc.time()
 pbmc <- load_rds(args$input_rds)
+proc.time() - start
+output_size_list <- append(output_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
 
+print("*************************************")
+print("************ MY SUBSET ***************")
+print("*************************************")
+job_list <- append(job_list, "MY SUBSET")
+input_size_list <- append(input_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
+start <- proc.time()
 pbmc <- my_subset(args$min_n_features, args$max_n_features, args$max_percent_mitochondrial)
+proc.time() - start
+print(object.size(pbmc), units="auto")
+output_size_list <- append(output_size_list, object.size(pbmc))
 
+print("*************************************")
+print("************ NORM PBMC ***************")
+print("*************************************")
+job_list <- append(job_list, "NORM PBMC")
+input_size_list <- append(input_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
+start <- proc.time()
 pbmc <- norm_pbmc(args$norm_method, args$scale_factor)
+proc.time() - start
+print(object.size(pbmc), units="auto")
+output_size_list <- append(output_size_list, object.size(pbmc))
 
+print("*************************************")
+print("************ FEAT SEL PLOT **********")
+print("*************************************")
+job_list <- append(job_list, "FEAT SEL PLOT")
+input_size_list <- append(input_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
+start <- proc.time()
 pbmc <- feat_sel_plot(args$feat_sel_method, args$num_features, args$num_to_label)
+proc.time() - start
+output_size_list <- append(output_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
 
+print("*************************************")
+print("************ MY SCALE ***************")
+print("*************************************")
+job_list <- append(job_list, "MY SCALE")
+input_size_list <- append(input_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
+start <- proc.time()
 pbmc <- myscale(pbmc)
+proc.time() - start
+output_size_list <- append(output_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
 
-write("Performing PCA...", stdout())
+print("*************************************")
+print("************ MY PCA *****************")
+print("*************************************")
 
-# We should add Paramters for PCA
+# We should add Parameters for PCA
+job_list <- append(job_list, "MY PCA")
+input_size_list <- append(input_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
+start <- proc.time()
 pbmc <- mypca(pbmc)
-write("Done!", stdout())
+proc.time() - start
+output_size_list <- append(output_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
 
+print("*************************************")
+print("************   VDP  *****************")
+print("*************************************")
+job_list <- append(job_list, "VDP")
+input_size_list <- append(input_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
+start <- proc.time()
 vdp()
+proc.time() - start
+output_size_list <- append(output_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
 
+print("*************************************")
+print("************   VDL    ***************")
+print("*************************************")
+job_list <- append(job_list, "VDL")
+input_size_list <- append(input_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
+start <- proc.time()
 vdl(args$vdl_num_dims)
+proc.time() - start
+output_size_list <- append(output_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
 
+print("*************************************")
+print("************   EBP    ***************")
+print("*************************************")
+job_list <- append(job_list, "EBP")
+input_size_list <- append(input_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
+start <- proc.time()
 ebp()
+proc.time() - start
+output_size_list <- append(output_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
 
+print("*************************************")
+print("************   VDHM   ***************")
+print("*************************************")
+job_list <- append(job_list, "VDHM")
+input_size_list <- append(input_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
+start <- proc.time()
 vdhm(args$vdhm_num_dims, args$cells)
+proc.time() - start
+output_size_list <- append(output_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
 
+
+if (args$keep_scale_data == FALSE) {
+  # Why are we calling Diet Seurat? Read this issue:
+  # https://github.com/satijalab/seurat/issues/3892
+  print("*************************************")
+  print("*********    DIET SEURAT   **********")
+  print("*************************************")
+  job_list <- append(job_list, "DIET SEURAT")
+  input_size_list <- append(input_size_list, object.size(pbmc))
+  print(object.size(pbmc), units="auto")
+  start <- proc.time()
+  pbmc <- DietSeurat(pbmc, counts=TRUE, data=TRUE, scale.data=FALSE, features=NULL, 
+                     assays=NULL, dimreducs=NULL, graphs=NULL)
+  proc.time() - start
+  output_size_list <- append(output_size_list, object.size(pbmc))
+  print(object.size(pbmc), units="auto")
+}
+
+
+print("*************************************")
+print("************ SAVE RDS ***************")
+print("*************************************")
+job_list <- append(job_list, "SAVE RDS")
+input_size_list <- append(input_size_list, object.size(pbmc))
+start <- proc.time()
 save_it(paste(args$file_name,'.rds',sep=''))
+proc.time() - start
+output_size_list <- append(output_size_list, object.size(pbmc))
+print(object.size(pbmc), units="auto")
+
+# CREATE DATAFRAME FOR RDS FILE SIZES
+file_sizes <- do.call(rbind, Map(data.frame, "JOB"=job_list, "INPUT SIZE"=input_size_list, "OUTPUT SIZE"=output_size_list))
+file_sizes
 
 #sessionInfo()

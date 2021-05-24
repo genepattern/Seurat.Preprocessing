@@ -7,4 +7,5 @@ docker run -v $PWD:/LOCAL -w $PWD/Job_1 -t genepattern/seurat-suite:2.4 Rscript 
  --num_features 2000 --num_to_label 10\
  --vdl_num_dims 2\
  --vdhm_num_dims 15 --cells 500\
- --file_name "test_run"
+ --file_name "test_run"\
+ --keep_scale_data TRUE
