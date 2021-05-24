@@ -34,6 +34,7 @@ The `Seurat.Preprocessing` Module aims to provide a way to integrate the multipl
 | column_name            | 	column name of percent mitochondrial genes. Note: not all datasets have this column, those who do often times name it percent.mt].|
 | pattern        | 	what pattern to use to label mitochondrial genes [often times this is annotated as MT-].|
 | file_name      | 	Basename of the file to be saved.|
+| keep_scale_data| Preserve the `scale.data` slot for the assays specified. If set to `TRUE`, the scaled data can be used for further analyses (such as in `Seurat.BatchCorrection` and `Seurat.Clustering`). Note that this will produce a larger output size for the `.rds` object.
 |**QC Parameters**||
 | first_feature  | [For QC plots] First feature to plot as a violin plot [typically one of the columns in the matrix.mtx file. Sometimes named features.tsv].|
 |second_feature|	[For QC plots] Second feature to plot as a violin plot [typically one of the columns in the matrix.mtx file. Sometimes named features.tsv].|
