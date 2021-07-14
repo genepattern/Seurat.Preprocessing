@@ -1,10 +1,10 @@
-# Seurat.Preprocessing  urn:lsid:genepattern.org:module.analysis:00415:2
-#Wed Jul 14 02:04:26 UTC 2021
+# Seurat.Preprocessing  urn:lsid:genepattern.org:module.analysis:00415:3.1
+#Wed Jul 14 04:57:38 UTC 2021
 JVMLevel=
-LSID=urn\:lsid\:genepattern.org\:module.analysis\:00415\:2
-author=Edwin F. Juarez & Jonathan Zamora;UCSD - Mesirov Lab
+LSID=urn\:lsid\:genepattern.org\:module.analysis\:00415\:3.1
+author=Edwin F. Juarez;UCSD - Mesirov Lab
 categories=preprocess & utilities;single-cell
-commandLine=Rscript --no-save --quiet --no-restore <libdir>seurat_preprocess.R --input_rds <input_rds> --min_n_features <min_n_features> --max_n_features <max_n_features> --max_percent_mitochondrial <max_percent_mitochondrial> --norm_method <norm_method> --scale_factor <scale_factor> --feat_sel_method <feat_sel_method> --num_features <num_features> --num_to_label <num_to_label> --vdl_num_dims <vdl_num_dims> --vdhm_num_dims <vdhm_num_dims> --cells <cells> --file_name <file_name>
+commandLine=Rscript --no-save --quiet --no-restore <libdir>seurat_preprocess.R --input_rds <input_rds> --min_n_features <min_n_features> --max_n_features <max_n_features> --max_percent_mitochondrial <max_percent_mitochondrial> --norm_method <norm_method> --scale_factor <scale_factor> --feat_sel_method <feat_sel_method> --num_features <num_features> --num_to_label <num_to_label> --vdl_num_dims <vdl_num_dims> --vdhm_num_dims <vdhm_num_dims> --cells <cells> --file_name <file_name> <keep_scale_data>
 cpuType=any
 description=Seurat preprocessing
 documentationUrl=https\://github.com/genepattern/Seurat.Preprocessing/blob/develop/doc.md
@@ -65,6 +65,19 @@ p13_prefix=
 p13_prefix_when_specified=
 p13_type=java.lang.Integer
 p13_value=
+p14_MODE=
+p14_TYPE=TEXT
+p14_default_value=TRUE
+p14_description=Whether to keep (or prune) scaling data. If you are unsure, leave it as TRUE.
+p14_fileFormat=
+p14_flag=--keep_scale_data
+p14_name=keep_scale_data
+p14_numValues=0..1
+p14_optional=
+p14_prefix=
+p14_prefix_when_specified=
+p14_type=java.lang.String
+p14_value=TRUE\=TRUE;FALSE\=FALSE
 p1_MODE=IN
 p1_TYPE=FILE
 p1_default_value=
@@ -189,4 +202,4 @@ src.repo=https\://github.com/genepattern/Seurat.Preprocessing
 taskDoc=doc.html
 taskType=preprocess & utilities
 userid=edjuaro
-version=Upgrading to Seurat v4.0.3
+version=Upgrading to Seurat 4.0.3

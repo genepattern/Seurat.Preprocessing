@@ -255,7 +255,7 @@ parser <- add_option(parser, c("--vdhm_num_dims"),type='integer',default=15, hel
 parser <- add_option(parser, c("--cells"),type='integer',default=500, help = "Number of top cells to plot.")
 # ====================================
 #parameter for save_it
-parser <- add_option(parser, c("--keep_scale_data"), type='logical', default=TRUE, help = "Save Scaled Counts for Downstream Analysis.")
+parser <- add_option(parser, c("--keep_scale_data"), type='character', default='TRUE', help = "Save Scaled Counts for Downstream Analysis.")
 parser <- add_option(parser, c("--file_name"),type='character',default='seurat_preprocessed_dataset', help = "Basename of the file to be saved.")
 # ====================================
 
@@ -413,7 +413,7 @@ output_size_list <- append(output_size_list, object.size(pbmc))
 print(object.size(pbmc), units="auto")
 
 
-if (args$keep_scale_data == FALSE) {
+if (args$keep_scale_data == 'FALSE') {
   # Why are we calling Diet Seurat? Read this issue:
   # https://github.com/satijalab/seurat/issues/3892
   print("*************************************")
