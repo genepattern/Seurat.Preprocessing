@@ -1,18 +1,10 @@
-# Run this gpunit loccaly by calling:
-# ant -f ${GPUNIT_HOME}/build.xml -Dgpunit.diffStripTrailingCR="--strip-trailing-cr" -Dgp.host="127.0.0.1" -Dgp.url="http://127.0.0.1:8080" -Dgp.user="edjuaro@gmail.com" -Dgp.password="" -Dgpunit.testfolder=`pwd` gpunit
-# OR using gp-beta-ami:
-# ant -f ${GPUNIT_HOME}/build.xml -Dgpunit.diffStripTrailingCR="--strip-trailing-cr" -Dgp.host="gp-beta-ami.genepattern.org" -Dgp.url="https://gp-beta-ami.genepattern.org" -Dgp.user="edjuaro" -Dgp.password="**PUT_PASSWORD_HERE" -Dgpunit.testfolder=`pwd` gpunit
-
-#
-# Note: this test uses a custom diff command
-#
-
 name: "Seurat.Preprocessing - Basic test"
 module: Seurat.Preprocessing
 params:
-    tenx_data_dir: "https://s3-us-west-2.amazonaws.com/10x.files/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz"
+    input_rds: "https://datasets.genepattern.org/data/module_support_files/Seurat_Preprocessing/test_run.rds"
     column_name: "percent.mt"
     pattern: "MT-"
+    file_name: "GPUnit_test"
 assertions:
     jobStatus: success
     numFiles: 4
