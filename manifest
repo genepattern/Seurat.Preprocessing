@@ -1,13 +1,13 @@
-# Seurat.Preprocessing  urn:lsid:genepattern.org:module.analysis:00415:3.2
+# Seurat.Preprocessing  urn:lsid:genepattern.org:module.analysis:00415:4.0
 #Wed Jul 14 04:57:38 UTC 2021
 JVMLevel=
-LSID=urn\:lsid\:genepattern.org\:module.analysis\:00415\:3.2
+LSID=urn\:lsid\:genepattern.org\:module.analysis\:00415\:4.0
 author=Edwin F. Juarez;UCSD - Mesirov Lab
 categories=preprocess & utilities;single-cell
-commandLine=Rscript --no-save --quiet --no-restore <libdir>seurat_preprocess.R --input_rds <input_rds> --min_n_features <min_n_features> --max_n_features <max_n_features> --max_percent_mitochondrial <max_percent_mitochondrial> --norm_method <norm_method> --scale_factor <scale_factor> --feat_sel_method <feat_sel_method> --num_features <num_features> --num_to_label <num_to_label> --vdl_num_dims <vdl_num_dims> --vdhm_num_dims <vdhm_num_dims> --cells <cells> --file_name <file_name> --keep_scale_data <keep_scale_data>
+commandLine=Rscript --no-save --quiet --no-restore <libdir>seurat_preprocess.R --input_rds <input_rds> --min_n_features <min_n_features> --max_n_features <max_n_features> --max_percent_mitochondrial <max_percent_mitochondrial> --norm_method <norm_method> --scale_factor <scale_factor> --feat_sel_method <feat_sel_method> --num_features <num_features> --num_to_label <num_to_label> --vdl_num_dims <vdl_num_dims> --vdhm_num_dims <vdhm_num_dims> --cells <cells> --file_name <file_name> --keep_scale_data <keep_scale_data> --numpcs <numpcs>
 cpuType=any
 description=Seurat preprocessing
-documentationUrl=https\://github.com/genepattern/Seurat.Preprocessing/blob/develop/doc.md
+documentationUrl=https://github.com/genepattern/Seurat.Preprocessing/blob/v4/doc.md
 fileFormat=rds
 job.docker.image=genepattern/seurat-suite\:4.0.3
 language=any
@@ -29,7 +29,7 @@ p10_value=
 p11_MODE=
 p11_TYPE=Integer
 p11_default_value=2
-p11_description=Number of PCA dimensions to visualize.
+p11_description=Number of PCA dimensions to visualize (for elbow plot and heatmaps).
 p11_fileFormat=
 p11_flag=--vdl_num_dims
 p11_name=vdl_num_dims
@@ -78,6 +78,21 @@ p14_prefix=
 p14_prefix_when_specified=
 p14_type=java.lang.String
 p14_value=TRUE\=TRUE;FALSE\=FALSE
+
+p15_MODE=
+p15_TYPE=Integer
+p15_default_value=50
+p15_description=Number of principal components to compute (default=50).
+p15_fileFormat=
+p15_flag=--numpcs
+p15_name=numpcs
+p15_numValues=0..1
+p15_optional=
+p15_prefix=
+p15_prefix_when_specified=
+p15_type=java.lang.Integer
+p15_value=
+
 p1_MODE=IN
 p1_TYPE=FILE
 p1_default_value=
@@ -197,8 +212,8 @@ p9_type=java.lang.Integer
 p9_value=
 privacy=public
 publicationDate=11/20/2020 01\:10 
-quality=development
-src.repo=https\://github.com/genepattern/Seurat.Preprocessing
+quality=production
+src.repo=https://github.com/genepattern/Seurat.Preprocessing/tree/v4
 taskDoc=doc.html
 taskType=preprocess & utilities
 userid=edjuaro

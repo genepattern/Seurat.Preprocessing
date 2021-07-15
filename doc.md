@@ -1,12 +1,12 @@
-# Seurat.Preprocessing (v1)
+# Seurat.Preprocessing (v4.0)
 ---
 **Description**: GenePattern module which implements the preprocessing steps for Seurat. You may need to run this module multiple times if you want to change the filtering step.
 
-**Author**: Edwin Juárez
+**Author**: Edwin Juárez and Jonathan Zamora
 
 **Contact**: [Forum Link](https://groups.google.com/forum/?utm_medium=email&utm_source=footer#!forum/genepattern-help)
 
-**Algorithm Version**: Seurat 3.2.0
+**Algorithm Version**: Seurat 4.0.3
 
 ---
 
@@ -22,6 +22,10 @@ The `Seurat.Preprocessing` Module aims to provide a way to integrate the multipl
 
 [Seurat](https://satijalab.org/seurat/)
 
+[Module's GitHub repository](https://github.com/genepattern/Seurat.Preprocessing/tree/v4)
+
+[Module's Docker container](https://hub.docker.com/layers/genepattern/seurat-suite/4.0.3/images/sha256-8d3f5fcae1cf4034cfc9aa87a2e3ea352b89073c948a4fa885670a1eebf16721?context=repo)
+
 ### Technical Notes
 
 
@@ -30,7 +34,7 @@ The `Seurat.Preprocessing` Module aims to provide a way to integrate the multipl
 
 | Name | Description |
 -------|--------------
-| tenx_data_dir         | `.tar.gz` or `.zip` file input that contains the  raw single cell data -- currently only 10x data is supported.|
+| input_rds         | RDS file created by Seurat.QC|
 | column_name            | 	column name of percent mitochondrial genes. Note: not all datasets have this column, those who do often times name it percent.mt].|
 | pattern        | 	what pattern to use to label mitochondrial genes [often times this is annotated as MT-].|
 | file_name      | 	Basename of the file to be saved.|
@@ -48,6 +52,7 @@ The `Seurat.Preprocessing` Module aims to provide a way to integrate the multipl
 |feat_sel_method|Method for feature selection. You should probably not change this unless you really know what you are doing.|
 |num_features|	Number of top features color during feature selection.|
 |num_to_label|Number of top features to label.|
+|numpcs|Number of PCA dimensions to visualize (default=50).|
 |vdl_num_dims|Number of PCA dimensions to visualize.|
 |vdhm_num_dims|	Number of dimensions for the dimensional reduction heatmap.|
 |cells|Number of top cells to plot.|
@@ -81,4 +86,5 @@ The `Seurat.Preprocessing` Module aims to provide a way to integrate the multipl
 
 | Version | Release Date | Description                                 |
 ----------|--------------|---------------------------------------------|
+| 4.0       | 2021-07-15          | Updating to Seurat 4.0.3 |
 | 1       | 2020-11-16          | Initial Release of `Seurat.Preprocessing` |

@@ -9,12 +9,6 @@
         ]
     },
     {
-        "name": "Other",
-        "description": "The rest",
-        "hidden": false,
-        "parameters": []
-    },
-    {
         "name": "Filtering",
         "description": "Parameters related to filtering for QC.",
         "hidden": false,
@@ -37,7 +31,8 @@
             "vdl_num_dims",
             "vdhm_num_dims",
             "cells",
-            "keep_scale_data"
+            "keep_scale_data",
+            "numpcs"
         ]
     }
 ]

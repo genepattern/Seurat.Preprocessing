@@ -24,7 +24,7 @@ load_rds <- function(input.file){
   if (file.exists(input.file)){
   	pbmc = readRDS(input.file)
   } else {
-  Print('Input file could not be found!')
+  print('Input file could not be found!')
   }
   return(pbmc)
 }
@@ -161,9 +161,9 @@ myscale <- function(pbmc){
 
 ## PCA
 
-mypca <-function(pbmc){
+mypca <-function(pbmc,numpcs){
     feats <- VariableFeatures(object = pbmc, verbose = F)
-    pbmc <-RunPCA(pbmc, features = feats, nfeatures.print=5, verbose = F)
+    pbmc <-RunPCA(pbmc, features = feats, nfeatures.print=5, verbose = F, npcs = numpcs)
 
     return(pbmc)
 }
@@ -185,9 +185,8 @@ vdl <- function(nDims){
 
 
 ## ELBOW PLOT
-
-ebp <- function(){
-    plot(ElbowPlot(pbmc))
+ebp <- function(nDims){
+    plot(ElbowPlot(pbmc,ndims=nDims))
     return(pbmc)
 }
 
@@ -248,10 +247,11 @@ parser <- add_option(parser, c("--num_features"),type='integer',default=2000, he
 parser <- add_option(parser, c("--num_to_label"),type='integer',default=10, help = "Number of top features to label.")
 # ====================================
 # Parameter for Vizualize Dimension Loadings, vdl
+parser <- add_option(parser, c("--numpcs"),type='integer',default=50, help = "Number of PCA dimensions to compute (default=50).")
 parser <- add_option(parser, c("--vdl_num_dims"),type='integer',default=2, help = "Number of PCA dimensions to visualize.")
 # ====================================
 # Parameters for Heat Map, vdhm
-parser <- add_option(parser, c("--vdhm_num_dims"),type='integer',default=15, help = "Number of dimensions for the dimensional reduction heatmap.")
+parser <- add_option(parser, c("--vdhm_num_dims"),type='integer',default=15, help = "Number of dimensions for the dimensional reduction heatmap and elbow plots.")
 parser <- add_option(parser, c("--cells"),type='integer',default=500, help = "Number of top cells to plot.")
 # ====================================
 #parameter for save_it
@@ -266,6 +266,8 @@ print('Parameters used:')
 print(args)
 print('==========================================================')
 
+# Setting up the PDF file for the plots
+pdf(file=paste(args$file_name,'.pdf',sep=''))
 
 ################################################################################
 #Begin Running the functions
@@ -359,7 +361,7 @@ job_list <- append(job_list, "MY PCA")
 input_size_list <- append(input_size_list, object.size(pbmc))
 print(object.size(pbmc), units="auto")
 start <- proc.time()
-pbmc <- mypca(pbmc)
+pbmc <- mypca(pbmc,args$numpcs)
 proc.time() - start
 output_size_list <- append(output_size_list, object.size(pbmc))
 print(object.size(pbmc), units="auto")
@@ -395,7 +397,7 @@ job_list <- append(job_list, "EBP")
 input_size_list <- append(input_size_list, object.size(pbmc))
 print(object.size(pbmc), units="auto")
 start <- proc.time()
-ebp()
+ebp(args$vdhm_num_dims)
 proc.time() - start
 output_size_list <- append(output_size_list, object.size(pbmc))
 print(object.size(pbmc), units="auto")
@@ -411,6 +413,32 @@ vdhm(args$vdhm_num_dims, args$cells)
 proc.time() - start
 output_size_list <- append(output_size_list, object.size(pbmc))
 print(object.size(pbmc), units="auto")
+
+print("******************************************************")
+print("************   Explained variability   ***************")
+print("******************************************************")
+
+print('Computing percent of variance explained for each PC')
+mat <- Seurat::GetAssayData(pbmc, assay = "RNA", slot = "scale.data")
+pca <- pbmc[["pca"]]
+# Get the total variance:
+total_variance <- sum(matrixStats::rowVars(mat))
+eigValues = (pca@stdev)^2  ## EigenValues
+varExplained = 100*eigValues / total_variance #Percent of variance explainde
+print(varExplained)
+
+cat('Creating plots for Variance explained')
+cvar<-cumsum(varExplained)
+
+##default#par(mfrow=c(2,1),mar = c(5.1, 4.1, 4.1, 2.1))
+# par(mfrow=c(2,1),mar = c(5.1, 5, 4.1, 2.1))
+par(mfrow=c(1,1),mar = c(5.1, 4.1, 4.1, 2.1))
+plot(1:length(varExplained),varExplained,main='Percent of the variance explained by each PC',ylab='Percent',xlab='Principal Components')
+plot(1:length(cvar),cvar,main='Cumulative Variance explained',ylab='Percent',xlab='Principal Components')
+par(mfrow=c(1,1))
+# plot(1:length(varExplained),varExplained)
+# plot(1:length(cvar),cvar)
+print('... done')
 
 
 if (args$keep_scale_data == 'FALSE') {
@@ -434,6 +462,7 @@ if (args$keep_scale_data == 'FALSE') {
 print("*************************************")
 print("************ SAVE RDS ***************")
 print("*************************************")
+dev.off() # Close the PDF file
 job_list <- append(job_list, "SAVE RDS")
 input_size_list <- append(input_size_list, object.size(pbmc))
 start <- proc.time()
