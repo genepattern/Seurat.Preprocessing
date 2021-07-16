@@ -154,7 +154,12 @@ feat_sel_plot <- function(meth, nFeat, nLabel){
 myscale <- function(pbmc){
     write("Scaling data...", stdout())
     all.genes <- rownames(pbmc)
-    invisible(capture.output(pbmc <- ScaleData(pbmc, features = all.genes, verbose = F)))
+    # We set features = NULL since we only want to perform scaling on the 
+    # previously identified variable features
+    # For more on this, please see the 'Scaling the Data' section of this Seurat V4.0
+    # vignette: https://satijalab.org/seurat/articles/pbmc3k_tutorial.html#scaling-the-data-1
+    # and look at 'This step takes too long! Can I make it faster?'
+    invisible(capture.output(pbmc <- ScaleData(pbmc, features = NULL, verbose = F)))
     write('done!', stdout())
     return(pbmc)
 }
