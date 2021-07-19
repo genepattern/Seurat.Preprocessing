@@ -1,3 +1,5 @@
+#updated after building 4.1
+#Mon, 19 Jul 2021 19:00:56 -0400
 #prerelease version number
 #Thu, 15 Jul 2021 15:34:12 -0400
 #updated after building 3.2
@@ -23,4 +25,4 @@
 #updated before first build
 #Wed, 1 May 2018 15:30:42
 #prerelease version number
-prerelease.number=1
+prerelease.number=2
