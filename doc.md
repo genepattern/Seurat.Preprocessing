@@ -13,7 +13,7 @@
 ## Summary
 ---
 
-The `Seurat.Preprocessing` Module aims to provide a way to integrate the multiple stemps in the preprocessing of single-cell datasets. The resultant preprocessed dataset  can then be used for downstream analyses and visualizations (such as Seurat.Clustering).
+The `Seurat.Preprocessing` Module aims to provide a way to integrate the multiple steps in the preprocessing of single-cell datasets. The resultant preprocessed dataset  can then be used for downstream analyses and visualizations (such as Seurat.Clustering).
 
 
 ## References
